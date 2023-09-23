@@ -12,8 +12,9 @@ namespace ECommerceAPI.Data.Entities
     {
         public required string UserName { get; set; }
         public required string Password { get; set; }
-        public  required string EmailAddress { get; set; }
-        public  DateTime lastLoginTime { get; set; }
-
+        public required string EmailAddress { get; set; }
+        public string Token { get; set; }
+        public DateTime lastLoginTime { get; set; }
+        public long Id { get;  set; }
     }
 }
