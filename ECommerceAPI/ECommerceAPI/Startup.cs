@@ -1,7 +1,11 @@
 
+using System;
 using System.Reflection;
 using System.Text;
+using ECommerceAPI.Data.Entities;
+using ECommerceAPI.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using Microsoft.IdentityModel.Tokens;
@@ -42,6 +46,13 @@ namespace ECommerceAPI
                                         .AllowAnyMethod();
                                     });
             });
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseMySql(mySqlConnectionString, ServerVersion.AutoDetect(mySqlConnectionString), b => b.MigrationsAssembly(migrationsAssembly))
+            );
+
+            
+
 
 
             // Adding Authentication  
@@ -154,6 +165,7 @@ namespace ECommerceAPI
             {
                 endpoints.MapControllers();
             });
+
 
         }
 
