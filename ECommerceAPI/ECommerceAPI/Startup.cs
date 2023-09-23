@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-
+using ECommerceAPI.Services;
 
 namespace ECommerceAPI
 {
@@ -51,34 +51,32 @@ namespace ECommerceAPI
                 options.UseMySql(mySqlConnectionString, ServerVersion.AutoDetect(mySqlConnectionString), b => b.MigrationsAssembly(migrationsAssembly))
             );
 
-            
+
 
 
 
             // Adding Authentication  
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
+            // Add authentication
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
                 {
-                    ValidateIssuer = true,
-                    ValidIssuer = Configuration["JwtSettings:ValidIssuer"],
-                    ValidateAudience = true,
-                    ValidAudience = Configuration["JwtSettings:ValidAudience"],
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtSettings:SecretKey"])),
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero
-                };
-            });
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = "ISSUERmhjly",
+                        ValidAudience = "Audgrtrg",
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("4578965248"))
+                    };
+                });
 
 
 
 
-
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IImageService, ImageService>();
 
 
             services.AddSwaggerGen(options =>

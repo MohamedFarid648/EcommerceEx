@@ -16,5 +16,6 @@ namespace ECommerceAPI.Data.Entities
         public string Token { get; set; }
         public DateTime lastLoginTime { get; set; }
         public long Id { get;  set; }
+
     }
 }

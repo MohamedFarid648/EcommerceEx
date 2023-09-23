@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ECommerceAPI.Data.Entities;
+using ECommerceAPI.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace ECommerceAPI.Controllers
 {
-    using ECommerceAPI.Data.Entities;
-    using ECommerceAPI.Services;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
+   
 
     [ApiController]
     [Route("api/[controller]")]
@@ -29,5 +31,20 @@ namespace ECommerceAPI.Controllers
 
             return Ok(user);
         }
+
+
+        [AllowAnonymous]
+        [HttpPost("register")]
+        public IActionResult Register([FromBody] UserFormModel model)
+        {
+
+            var user = _userService.RegisterUser(model.UserName, model.Password,model.EmailAddress);
+
+            if (user == null)
+                return BadRequest("Invalid username or password.");
+
+            return Ok(user);
+        }
+
     }
 }
